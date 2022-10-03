@@ -31,6 +31,11 @@ message=f"Hello,{first_name.title()}!"
 print(message)
 #f字符串是Python 3.6引入的，使用的是Python3.5或更早的版本，需要使用format()方法
 full_name="{}{}".format(first_name,last_name)
+#书上代码2.3.3
+print("\tpython")
+#书上代码2.3.4
+favorite_language='python '
+favorite_language.rstrip()
 #课后练习2.2
 #练习2-1 简单消息 将一条消息赋给变量，并将其打印出来
 message="python exercises"
@@ -41,3 +46,4 @@ message="python exercises"
 print(message)
 message="python exercises_new"
 print(message)
+
