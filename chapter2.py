@@ -34,8 +34,10 @@ full_name="{}{}".format(first_name,last_name)
 #书上代码2.3.3
 print("\tpython")
 #书上代码2.3.4
-favorite_language='python '
-favorite_language.rstrip()
+favorite_language=' python '
+favorite_language.rstrip()#删除末尾的空白
+favorite_language.lstrip()#删除开头的空白
+favorite_language.strip()#删除两边的空白
 #课后练习2.2
 #练习2-1 简单消息 将一条消息赋给变量，并将其打印出来
 message="python exercises"
