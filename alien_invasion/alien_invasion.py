@@ -9,6 +9,7 @@ import pygame
 import sys
 from settings import Settings
 from ship import Ship_display
+from bullet import Bullet
 
 class AlienGame:
     def __init__(self):
@@ -37,51 +38,47 @@ class AlienGame:
 
         #实例化飞船类
         self.ship_display = Ship_display(self.screen)
-    def keyboard_press(self):
-        '''
-        键盘按键按压
-        '''
+
+        #实例化子弹类
+        self.bullets=pygame.sprite.Group()
+
+
+    def keyboard_action(self):
         for event in pygame.event.get():
             #如果鼠标点击顶部关闭按钮，则退出游戏
             if event.type == pygame.QUIT:
                 sys.exit()
-            #如果鼠标点击上下左右方向键，往对应方向平移
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
-                self.ship_display.move_flag=True
-                if self.ship_display.move_flag:
-                    self.ship_display.ship_rect.y-=1.5
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
-                self.ship_display.move_flag=True
-                if self.ship_display.move_flag:
-                     self.ship_display.ship_rect.y+=1.5
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-                self.ship_display.move_flag=True
-                if self.ship_display.move_flag:
-                    self.ship_display.ship_rect.x-=1.5
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-                self.ship_display.move_flag=True
-                if self.ship_display.move_flag:
-                      self.ship_display.ship_rect.x+=1.5
+            elif event.type == pygame.KEYDOWN:
+                self.keyboard_press(event)
+            elif event.type == pygame.KEYUP:
+                self.keyboard_release(event)
+    def keyboard_press(self,event):
+        '''
+        键盘按键按压
+        '''
+        if event.key == pygame.K_UP:
+            self.ship_display.move_up_flag=True
+        elif event.key == pygame.K_DOWN:
+            self.ship_display.move_down_flag=True
+        elif event.key == pygame.K_LEFT:
+            self.ship_display.move_left_flag=True
+        elif event.key == pygame.K_RIGHT:
+            self.ship_display.move_right_flag=True
+        elif event.key == pygame.K_q:
+            sys.exit()
 
-    def keyboard_release(self):
+    def keyboard_release(self,event):
         '''
         键盘按键松开
         '''
-        for event in pygame.event.get():
-            # 如果鼠标松开上下左右方向键，往对应方向平移
-            if event.type == pygame.KEYUP and event.key == pygame.K_UP:
-                self.ship_display.move_flag=False
-                if self.ship_display.move_flag:
-                    self.ship_display.ship_rect.y -= 1.5
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
-                if self.ship_display.move_flag:
-                    self.ship_display.ship_rect.y += 1.5
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-                if self.ship_display.move_flag:
-                    self.ship_display.ship_rect.x -= 1.5
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-                if self.ship_display.move_flag:
-                    self.ship_display.ship_rect.x += 1.5
+        if event.key == pygame.K_UP:
+            self.ship_display.move_up_flag = False
+        elif event.key == pygame.K_DOWN:
+            self.ship_display.move_down_flag = False
+        elif event.key == pygame.K_LEFT:
+            self.ship_display.move_left_flag = False
+        elif event.key == pygame.K_RIGHT:
+            self.ship_display.move_right_flag = False
 
     def mouse_click(self):
         '''
@@ -117,11 +114,12 @@ class AlienGame:
         # 整个更新
         pygame.display.flip()
 
-    #设置游戏循环，死循环使得窗口可以一直显示
     def runGame(self):
+        # 设置游戏循环，死循环使得窗口可以一直显示
         while True:
-            self.keyboard_press()
-            self.keyboard_release()
+            self.keyboard_action()
+            self.ship_display.update_ship()
+            self.bullets.bullet_update()
             self.update_screen()
 
 if __name__ == '__main__':

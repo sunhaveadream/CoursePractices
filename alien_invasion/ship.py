@@ -25,8 +25,11 @@ class Ship_display:
         self.on_screen_rect=self.on_screen.get_rect()
         #把飞船放在屏幕的底部中间
         self.ship_rect.midbottom=self.on_screen_rect.midbottom
-        self.move_flag=False
-        # self.ship_speed=self.settings.speed
+        #初始化移动标志
+        self.move_left_flag=False
+        self.move_right_flag=False
+        self.move_up_flag=False
+        self.move_down_flag=False
 
     def display_ship(self):
         '''
@@ -34,8 +37,20 @@ class Ship_display:
         '''
         self.on_screen.blit(self.ship_photo,self.ship_rect)
 
-    # def update_ship(self,ship_speed):
-    #     '''
-    #     更新飞船位置
-    #     '''
-    #     self.ship_rect.x += ship_speed
+    def update_ship(self):
+        '''
+        更新飞船位置
+        '''
+        if self.move_left_flag:
+            if self.ship_rect.left >0:
+                self.ship_rect.x -= self.settings.speed
+        elif self.move_right_flag:
+            if self.ship_rect.right < self.on_screen_rect.right:
+                self.ship_rect.x += self.settings.speed
+        elif self.move_up_flag:
+            if self.ship_rect.top >0:
+                self.ship_rect.y -= self.settings.speed
+        elif self.move_down_flag:
+            if self.ship_rect.bottom < self.on_screen_rect.bottom:
+                self.ship_rect.y += self.settings.speed
+
