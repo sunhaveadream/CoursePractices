@@ -33,8 +33,10 @@ class Settings:
         self.bullet_height=15
         self.bullet_position=(self.bullet_left,self.bullet_top,self.bullet_width,self.bullet_height)
         #设置子弹颜色
-        self.bullet_colour=(0, 0, 255)
+        self.bullet_colour=(255, 0, 0)
         #设置子弹的速度
-        self.bullet_speed=1
+        self.bullet_speed=10
         #设置子弹矩形的边框大小(0表示填充矩形)
         self.bullet_frame=20
+        #设置子弹限制数量
+        self.bullet_sum=3

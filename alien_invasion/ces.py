@@ -8,7 +8,7 @@ from pygame.locals import *
 
 
 def DrawRect(screen):
-    mycolcor = (0, 0, 255)
+    mycolcor = (0, 255, 255)
     x = 300
     y = 250
     position = (x, y, 100, 100)

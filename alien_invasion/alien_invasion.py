@@ -42,6 +42,13 @@ class AlienGame:
         #实例化子弹类
         self.bullets=pygame.sprite.Group()
 
+    def bullet_fire(self):
+        if len(self.bullets)<self.settings.bullet_sum:
+            new_bullet=Bullet(self)
+            self.bullets.add(new_bullet)
+
+    def bullet_update(self):
+        self.bullets.update()
 
     def keyboard_action(self):
         for event in pygame.event.get():
@@ -52,6 +59,7 @@ class AlienGame:
                 self.keyboard_press(event)
             elif event.type == pygame.KEYUP:
                 self.keyboard_release(event)
+
     def keyboard_press(self,event):
         '''
         键盘按键按压
@@ -64,8 +72,11 @@ class AlienGame:
             self.ship_display.move_left_flag=True
         elif event.key == pygame.K_RIGHT:
             self.ship_display.move_right_flag=True
+        elif event.key == pygame.K_SPACE:
+            self.bullet_fire()
         elif event.key == pygame.K_q:
             sys.exit()
+
 
     def keyboard_release(self,event):
         '''
@@ -105,7 +116,10 @@ class AlienGame:
         # 填充窗口颜色
         self.screen.fill(self.bg_color)
         # 填充背景图片
-        self.screen.blit(self.bg_photo, self.bg_rect)
+        # self.screen.blit(self.bg_photo, self.bg_rect)
+        for bullet in self.bullets.sprites():
+            bullet.bullet_draw()
+            bullet.bullet_update()
         # 显示飞船
         self.ship_display.display_ship()
         # 更新屏幕内容
@@ -119,7 +133,7 @@ class AlienGame:
         while True:
             self.keyboard_action()
             self.ship_display.update_ship()
-            self.bullets.bullet_update()
+            self.bullet_update()
             self.update_screen()
 
 if __name__ == '__main__':
