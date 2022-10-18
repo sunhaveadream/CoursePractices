@@ -116,10 +116,9 @@ class AlienGame:
         # 填充窗口颜色
         self.screen.fill(self.bg_color)
         # 填充背景图片
-        # self.screen.blit(self.bg_photo, self.bg_rect)
+        self.screen.blit(self.bg_photo, self.bg_rect)
         for bullet in self.bullets.sprites():
             bullet.bullet_draw()
-            bullet.bullet_update()
         # 显示飞船
         self.ship_display.display_ship()
         # 更新屏幕内容
@@ -131,9 +130,13 @@ class AlienGame:
     def runGame(self):
         # 设置游戏循环，死循环使得窗口可以一直显示
         while True:
+            #捕获键盘事件
             self.keyboard_action()
+            #更新飞船图像
             self.ship_display.update_ship()
+            #更新子弹图像
             self.bullet_update()
+            #更新屏幕
             self.update_screen()
 
 if __name__ == '__main__':
