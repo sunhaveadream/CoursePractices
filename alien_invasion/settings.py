@@ -40,3 +40,5 @@ class Settings:
         self.bullet_frame=10
         #设置子弹限制数量
         self.bullet_sum=3
+        #设置外星人图片存放路径
+        self.alien_path="D:\\alien_relevent\\alien.bmp"

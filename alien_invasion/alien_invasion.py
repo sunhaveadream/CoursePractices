@@ -10,6 +10,7 @@ import sys
 from settings import Settings
 from ship import Ship_display
 from bullet import Bullet
+from alien import Alien
 
 class AlienGame:
     def __init__(self):
@@ -41,6 +42,15 @@ class AlienGame:
 
         #实例化子弹类
         self.bullets=pygame.sprite.Group()
+
+        #实例化外星人类
+        self.aliens=pygame.sprite.Group()
+
+        self.create_alien()
+
+    def create_alien(self):
+        alien=Alien(self)
+        self.aliens.add(alien)
 
     def bullet_fire(self):
         if len(self.bullets)<self.settings.bullet_sum:
@@ -119,6 +129,8 @@ class AlienGame:
         self.screen.blit(self.bg_photo, self.bg_rect)
         for bullet in self.bullets.sprites():
             bullet.bullet_draw()
+
+        self.aliens.draw(self.screen)
         # 显示飞船
         self.ship_display.display_ship()
         # 更新屏幕内容
