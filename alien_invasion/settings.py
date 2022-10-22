@@ -29,8 +29,8 @@ class Settings:
         #设置子弹的矩形的纵横
         self.bullet_left = 0
         self.bullet_top=0
-        self.bullet_width=10
-        self.bullet_height=10
+        self.bullet_width=1000
+        self.bullet_height=1000
         self.bullet_position=(self.bullet_left,self.bullet_top,self.bullet_width,self.bullet_height)
         #设置子弹颜色
         self.bullet_colour=(255, 0, 0)
@@ -39,6 +39,10 @@ class Settings:
         #设置子弹矩形的边框大小(0表示填充矩形)
         self.bullet_frame=10
         #设置子弹限制数量
-        self.bullet_sum=3
+        self.bullet_sum=30
         #设置外星人图片存放路径
         self.alien_path="D:\\alien_relevent\\alien.bmp"
+        #设置外星人的速度
+        self.alien_speed=0.1
+        self.alien_down_speed=0.9
+        self.group_direction=1

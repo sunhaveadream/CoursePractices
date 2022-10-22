@@ -40,17 +40,53 @@ class AlienGame:
         #实例化飞船类
         self.ship_display = Ship_display(self.screen)
 
-        #实例化子弹类
+        #实例化子弹组
         self.bullets=pygame.sprite.Group()
 
-        #实例化外星人类
+        #实例化外星人组
         self.aliens=pygame.sprite.Group()
 
-        self.create_alien()
+        self.alien_group()
 
-    def create_alien(self):
-        alien=Alien(self)
+    def alien_group(self):
+        alien = Alien(self)
+        alien_width,alien_height = alien.rect.size
+        alien_available_x = self.settings.window_width - alien_width * 2
+        alien_horizontal_num_x = alien_available_x // (alien_width * 2)
+
+        ship_height = self.ship_display.ship_rect.height
+        alien_available_y = (self.settings.window_length-(alien_height*3)-ship_height)
+        alien_horizontal_num_y = alien_available_y//(alien_height*2)
+
+        for vertical_num in range(alien_horizontal_num_y):
+            for horizontal_num in range(alien_horizontal_num_x):
+                self.alien_create(horizontal_num,vertical_num)
+
+    def alien_create(self,horizontal_num,vertical_num):
+        alien = Alien(self)
+        alien_width,alien_height = alien.rect.size
+        alien.x = alien_width + alien_width * 2 * horizontal_num
+        alien.rect.x = alien.x
+        alien.rect.y=alien.rect.height+alien.rect.height*2*vertical_num
         self.aliens.add(alien)
+
+    def check_group_edges(self):
+        for alien in self.aliens.sprites():
+            if alien.check_edge():
+                self.change_group_direction()
+                break
+
+    def change_group_direction(self):
+        for alien in self.aliens.sprites():
+            alien.rect.y +=self.settings.alien_down_speed
+        self.settings.group_direction *= -1
+
+    def update_aliens(self):
+        self.check_group_edges()
+        self.aliens.update()
+
+        if pygame.sprite.spritecollideany(self.ship_display,self.aliens):
+            print("ship drop")
 
     def bullet_fire(self):
         if len(self.bullets)<self.settings.bullet_sum:
@@ -59,6 +95,18 @@ class AlienGame:
 
     def bullet_update(self):
         self.bullets.update()
+
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom<=0:
+                self.bullets.remove(bullet)
+        self.check_bullet_alien_collisions()
+
+        if not self.aliens:
+            self.bullets.empty()
+            self.alien_group()
+
+    def check_bullet_alien_collisions(self):
+        shoots=pygame.sprite.groupcollide(self.bullets,self.aliens,True,True)
 
     def keyboard_action(self):
         for event in pygame.event.get():
@@ -133,6 +181,8 @@ class AlienGame:
         self.aliens.draw(self.screen)
         # 显示飞船
         self.ship_display.display_ship()
+        #显示外星人
+        self.aliens.draw(self.screen)
         # 更新屏幕内容
         # 部分更新
         # pygame.display.update()
@@ -148,6 +198,8 @@ class AlienGame:
             self.ship_display.update_ship()
             #更新子弹图像
             self.bullet_update()
+            #更新外星人图像
+            self.update_aliens()
             #更新屏幕
             self.update_screen()
 

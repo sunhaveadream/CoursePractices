@@ -22,9 +22,9 @@ class Ship_display:
         #把形参传给类的on_screen属性
         self.on_screen=on_screen
         #获取屏幕的位置矩形
-        self.on_screen_rect=self.on_screen.get_rect()
+        self.rect=self.on_screen.get_rect()
         #把飞船放在屏幕的底部中间
-        self.ship_rect.midbottom=self.on_screen_rect.midbottom
+        self.ship_rect.midbottom=self.rect.midbottom
         #初始化移动标志，初始化设置为不移动
         self.move_left_flag=False
         self.move_right_flag=False
