@@ -30,4 +30,4 @@ ax.tick_params(axis='both',labelsize=14)
 
 # plt.show()
 #自动保存图表
-plt.savefig('squares_plot.png',bbox_inches='tight')
+plt.savefig('ProjectTwoImages/squares_plot.png',bbox_inches='tight')
