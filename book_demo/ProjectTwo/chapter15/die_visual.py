@@ -1,7 +1,7 @@
 #die_visual
 #2022/11/3
 #author:linxu
-from die import Die
+from chapter15.die import Die
 from plotly.graph_objs import Bar,Layout
 from plotly import offline
 
@@ -38,4 +38,4 @@ y_axis_config = {'title':'结果的频率'}
 my_layout = Layout(title='掷1个六面的骰子和1个10面的骰子50000次的结果', xaxis=x_axis_config,yaxis=y_axis_config)
 # offline.plot({'data':data,'layout':my_layout},filename='d6.html')
 # offline.plot({'data':data,'layout':my_layout},filename='d6_d6.html')
-offline.plot({'data':data,'layout':my_layout},filename='d6_d10.html')
+offline.plot({'data':data,'layout':my_layout}, filename='d6_d10.html')

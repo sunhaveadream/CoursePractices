@@ -2,7 +2,7 @@
 #2022/11/3
 #author:linxu
 import matplotlib.pyplot as plt
-from die import Die
+from chapter15.die import Die
 
 fig = plt.figure()
 ax = fig.add_subplot(111)

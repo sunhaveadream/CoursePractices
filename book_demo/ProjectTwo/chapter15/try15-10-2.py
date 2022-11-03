@@ -2,10 +2,10 @@
 #2022/11/3
 #author:linxu
 from plotly import offline
-from plotly.graph_objs import Scatter,Layout
+from plotly.graph_objs import Layout
 import plotly.graph_objs as go
 
-from random_walk import RandomWalk
+from chapter15.random_walk import RandomWalk
 class RandomWalk:
     rw = RandomWalk(5000)
     rw.fill_walk()
