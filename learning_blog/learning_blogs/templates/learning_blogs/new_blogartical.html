@@ -1,0 +1,12 @@
+{% extends 'learning_blogs/base.html' %}
+
+{% block content %}
+	<p><a href="{% url 'learning_blogs:blogpost' blogpost.id%}">{{ blogpost }}</a></p>	
+	<p>添加一个新的博文</p>
+	<form action="{% url 'learning_blogs:new_blogartical' blogpost.id %}" method='post'>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button name="submit">添加博文</button>		
+	</form>
+
+{% endblock content %}

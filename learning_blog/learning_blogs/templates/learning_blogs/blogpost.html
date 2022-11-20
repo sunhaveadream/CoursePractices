@@ -1,0 +1,26 @@
+{% extends 'learning_blogs/base.html' %}
+
+{% block content %}
+
+  <p>BlogPost: {{ blogpost }}</p>
+
+  <p>博文</p>
+  <p>
+    <a href="{% url 'learning_blogs:new_blogartical' blogpost.id %}">添加新的博文</a>
+  </p>
+
+  <ul>
+  {% for blogartical in blogarticals %}
+    <li>
+      <p>{{ blogartical.date_added|date:'M d, Y H:i' }}</p>
+      <p>{{ blogartical.text|linebreaks }}</p>
+      <p>
+        <a href="{% url 'learning_blogs:edit_blogartical' blogartical.id %}">编辑博文</a>
+      </p>
+    </li>
+  {% empty %}
+    <li>这个博客还没有内容哦</li>
+  {% endfor %}
+  </ul>
+
+{% endblock content %}

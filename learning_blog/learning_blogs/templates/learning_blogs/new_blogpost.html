@@ -1,0 +1,12 @@
+{% extends 'learning_blogs/base.html' %}
+
+{% block content %}
+	<p>添加一个博客</p>
+	
+	<form action="{% url 'learning_blogs:new_blogpost' %}" method='post'>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button name="submit">添加博客</botton>		
+	</form>
+
+{% endblock content %}
