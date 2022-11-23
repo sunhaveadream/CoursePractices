@@ -35,7 +35,10 @@ INSTALLED_APPS = [
 	'learning_blogs',
 	'users',
 	
-	#默认添加的应用程序
+	# 第三方应用程序
+	'bootstrap4',
+	
+	# Django默认添加的应用程序
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

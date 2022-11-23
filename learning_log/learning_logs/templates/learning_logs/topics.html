@@ -1,17 +1,29 @@
 {% extends "learning_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+  <h1>Topics</h1>
+{% endblock page_header %}
 
 {% block content %}
+    {% for topic in topics %}
+		<div class="card mb-3">
+			<h4 class="card-header">
+				{{ topic.date_added|date:'M d,Y H:i' }}
+			<small><a href="{% url 'learning_logs:new_topic' %}">
+					Add a new topic</a></small>
+			</h4>
+			<div class="card-body">
+				<a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
+			</div>
+		</div>
+    {% empty %}
+	  <div class="alert alert-secondary" role="alert">
+		No topics have been added yet!
+	  </div>
+	  <h3><a href="{% url 'learning_logs:new_topic' %}">Add a new topic</a></h3>
+    {% endfor %}
 
-	<p>Topics</p>
-	
-	<ul>
-		{% for topic in topics %}
-			<li>
-			  <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
-			</li>
-		{% empty %}
-			<li>No topics have been added yet.</li>
-		{% endfor %}
-	</ul>
-	
-	{% endblock content %}
+  <h3></h3>
+
+{% endblock content %}

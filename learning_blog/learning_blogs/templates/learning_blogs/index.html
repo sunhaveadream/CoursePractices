@@ -1,6 +1,12 @@
 {% extends "learning_blogs/base.html" %}
 
-
-{% block content %}
-<p>这是博客的首页</p>
-{% endblock content %}
+{% block page_header %}
+	<div class="jumbotorn">
+		<h1 class="display-3">记录你的博客</h1>
+		
+		<p class="lead">在这里你可以记录你的生活日常</p>
+		
+		<a class="btn btn-lg  btn-primary" href="{% url 'users:register' %}"
+			role="button">注册 &raquo</a>			
+	</div>
+{% endblock page_header %}
