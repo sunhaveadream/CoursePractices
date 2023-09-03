@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
-from .models import Topic, Entry
-from .forms import TopicForm, EntryForm
+from .models import Topic, Entry,Teacher,TeacherMessage
+from .forms import TopicForm, EntryForm,TeacherForm,TeacherMessageForm
 
 def index(request):
     """The home page for Learning Log."""
@@ -88,3 +88,104 @@ def edit_entry(request, entry_id):
 
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
+
+
+@login_required
+def teachers(request):
+    """Show all teachers."""
+    teachers = Teacher.objects.filter(owner=request.user).order_by('date_added')
+    context = {'teachers': teachers}
+    return render(request, 'learning_logs/teachers.html', context)
+
+
+@login_required
+def teacher(request, teacher_id):
+    """Show a single teacher and all its teacherMessages."""
+    teacher = Teacher.objects.get(id=teacher_id)
+    # Make sure the teacher belongs to the current user.
+    if teacher.owner != request.user:
+        raise Http404
+
+    teacherMessages = teacher.teachermessage_set.order_by('-date_added')
+    context = {'teacher': teacher, 'teacherMessages': teacherMessages}
+    return render(request, 'learning_logs/teacher.html', context)
+
+
+@login_required
+def new_teacher(request):
+    """Add a new teacher."""
+    if request.method != 'POST':
+        # No data submitted; create a blank form.
+        form = TeacherForm()
+    else:
+        # POST data submitted; process data.
+        form = TeacherForm(data=request.POST)
+        if form.is_valid():
+            new_teacher = form.save(commit=False)
+            new_teacher.owner = request.user
+            new_teacher.save()
+            return redirect('learning_logs:teachers')
+
+    # Display a blank or invalid form.
+    context = {'form': form}
+    return render(request, 'learning_logs/new_teacher.html', context)
+
+
+@login_required
+def new_teacherMessage(request, teacher_id):
+    """Add a new teacherMessage for a particular teacher."""
+    teacher = Teacher.objects.get(id=teacher_id)
+
+    if request.method != 'POST':
+        # No data submitted; create a blank form.
+        form = TeacherMessageForm()
+    else:
+        # POST data submitted; process data.
+        form = TeacherMessageForm(data=request.POST)
+        if form.is_valid():
+            new_teacherMessage = form.save(commit=False)
+            new_teacherMessage.teacher = teacher
+            new_teacherMessage.save()
+            return redirect('learning_logs:teacher', teacher_id=teacher_id)
+
+    # Display a blank or invalid form.
+    context = {'teacher': teacher, 'form': form}
+    return render(request, 'learning_logs/new_teacherMessage.html', context)
+
+
+@login_required
+def edit_teacherMessage(request, teacherMessage_id):
+    """Edit an existing teacherMessage."""
+    teacherMessage = TeacherMessage.objects.get(id=teacherMessage_id)
+    teacher = teacherMessage.teacher
+    if teacher.owner != request.user:
+        raise Http404
+
+    if request.method != 'POST':
+        # Initial request; pre-fill form with the current teacherMessage.
+        form = TeacherMessageForm(instance=teacherMessage)
+    else:
+        # POST data submitted; process data.
+        form = TeacherMessageForm(instance=teacherMessage, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('learning_logs:teacher', teacher_id=teacher.id)
+    context = {'teacherMessage': teacherMessage, 'teacher': teacher, 'form': form}
+    return render(request, 'learning_logs/edit_teacherMessage.html', context)
+
+
+@login_required
+def delete_teacherMessage(request, teacherMessage_id):
+    """Delete an existing teacherMessage."""
+    teacherMessage = TeacherMessage.objects.get(id=teacherMessage_id)
+    teacher = teacherMessage.teacher
+    if teacher.owner != request.user:
+        raise Http404
+
+    if request.method == 'POST':
+        # POST data submitted; delete the teacherMessage.
+        teacherMessage.delete()
+        return redirect('learning_logs:teacher', teacher_id=teacher.id)
+
+    context = {'teacherMessage': teacherMessage, 'teacher': teacher}
+    return render(request, 'learning_logs/delete_teacherMessage.html', context)

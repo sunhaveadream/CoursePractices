@@ -1,0 +1,29 @@
+{% extends "learning_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+  <h1>Teachers</h1>
+{% endblock page_header %}
+
+{% block content %}
+    {% for teacher in teachers %}
+		<div class="card mb-3">
+			<h4 class="card-header">
+				{{ teacher.date_added|date:'M d,Y H:i' }}
+			<small><a href="{% url 'learning_logs:new_teacher' %}">
+					Add a new teacher</a></small>
+			</h4>
+			<div class="card-body">
+				<a href="{% url 'learning_logs:teacher' teacher.id %}">{{ teacher }}</a>
+			</div>
+		</div>
+    {% empty %}
+	  <div class="alert alert-secondary" role="alert">
+		No teachers have been added yet!
+	  </div>
+	  <h3><a href="{% url 'learning_logs:new_teacher' %}">Add a new teacher</a></h3>
+    {% endfor %}
+
+  <h3></h3>
+
+{% endblock content %}

@@ -24,3 +24,28 @@ class Entry(models.Model):
             return f"{self.text[:50]}..."
         else:
             return self.text
+
+
+class Teacher(models.Model):
+    name = models.CharField(max_length=200)
+    date_added = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class TeacherMessage(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    text = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'teacherMessages'
+
+    def __str__(self):
+        if len(self.text) > 50:
+            return f"{self.text[:50]}..."
+        else:
+            return self.text
+

@@ -1,0 +1,18 @@
+<!-- delete_teacherMessage.html -->
+{% extends "learning_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+    <h2>你确定删除么</h2>
+{% endblock page_header %}
+
+{% block content %}
+    <p>{{ teacherMessage.message }}</p>
+    <form action="{% url 'learning_logs:delete_teacherMessage' teacherMessage.id %}" method='post' class="form">
+        {% csrf_token %}
+        {% buttons %}
+            <button name='submit' class="btn btn-danger">是的，确认删除</button>
+            <a href="{% url 'learning_logs:teacher' teacher.id %}" class="btn btn-secondary">不，返回刚刚的页面</a>
+        {% endbuttons %}
+    </form>
+{% endblock content %}
